@@ -1,1 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Basic Calculator</title>
 
+<style>
+    *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+        font-family:Arial, sans-serif;
+    }
+
+    body{
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        height:100vh;
+        background:#f4f4f4;
+    }
+
+    .calculator{
+        width:320px;
+        background:#222;
+        padding:20px;
+        border-radius:12px;
+        box-shadow:0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    #display{
+        width:100%;
+        height:70px;
+        border:none;
+        outline:none;
+        text-align:right;
+        font-size:2rem;
+        padding:10px;
+        margin-bottom:15px;
+        border-radius:8px;
+        background:white;
+    }
+
+    .buttons{
+        display:grid;
+        grid-template-columns:repeat(4,1fr);
+        gap:10px;
+    }
+
+    button{
+        height:60px;
+        font-size:1.2rem;
+        border:none;
+        border-radius:8px;
+        cursor:pointer;
+        background:#444;
+        color:white;
+        transition:0.2s;
+    }
+
+    button:hover{
+        background:#666;
+    }
+
+    .operator{
+        background:#ff9500;
+    }
+
+    .operator:hover{
+        background:#ffb347;
+    }
+
+    .equal{
+        background:#28a745;
+    }
+
+    .equal:hover{
+        background:#45c463;
+    }
+
+    .clear{
+        background:#dc3545;
+    }
+
+    .clear:hover{
+        background:#f15a68;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="calculator">
+    <input type="text" id="display" readonly>
+
+    <div class="buttons">
+        <button class="clear">C</button>
+        <button>%</button>
+        <button>/</button>
+        <button>*</button>
+
+        <button>7</button>
+        <button>8</button>
+        <button>9</button>
+        <button>-</button>
+
+        <button>4</button>
+        <button>5</button>
+        <button>6</button>
+        <button>+</button>
+
+        <button>1</button>
+        <button>2</button>
+        <button>3</button>
+        <button class="equal">=</button>
+
+        <button>0</button>
+        <button>.</button>
+    </div>
+</div>
+
+<script>
+
+const display = document.getElementById("display");
+const buttons = document.querySelectorAll("button");
+
+// Loop through all buttons
+for(let i = 0; i < buttons.length; i++){
+
+    buttons[i].addEventListener("click", function(){
+
+        let value = this.innerText;
+
+        // Clear button
+        if(value === "C"){
+            display.value = "";
+        }
+
+        // Equal button
+        else if(value === "="){
+
+            try{
+
+                let expression = display.value;
+
+                // If-Else conditions for calculations
+                if(expression.includes("%")){
+                    let parts = expression.split("%");
+
+                    if(parts.length === 2){
+                        let num1 = parseFloat(parts[0]);
+                        let num2 = parseFloat(parts[1]);
+
+                        display.value = num1 % num2;
+                    }
+                    else{
+                        display.value = "Error";
+                    }
+                }
+                else{
+                    display.value = eval(expression);
+                }
+
+            }
+            catch{
+                display.value = "Error";
+            }
+        }
+
+        // Other buttons
+        else{
+            display.value += value;
+        }
+    });
+}
+
+</script>
+
+</body>
+</html>
